@@ -1,10 +1,10 @@
 // For DocuProject:
 import { setCustomComponents } from "@freon4dsl/core-svelte"
-import DatePicker from "../externalComponents/DatePicker.svelte";
-import ShowAnimatedGif from "../externalComponents/ShowAnimatedGif.svelte";
-import SMUI_Accordion from "../externalComponents/SMUI_Accordion.svelte";
-import SMUI_Card_Component from "../externalComponents/SMUI_Card_Component.svelte";
-import SMUI_Dialog from "../externalComponents/SMUI_Dialog.svelte";
+import DatePicker from "./DatePicker.svelte";
+import ShowAnimatedGif from "./ShowAnimatedGif.svelte";
+import SMUI_Accordion from "./SMUI_Accordion.svelte";
+import SMUI_Card_Component from "./SMUI_Card_Component.svelte";
+import SMUI_Dialog from "./SMUI_Dialog.svelte";
 
 /**
  * Configure the external components used, so Freon can find them.
