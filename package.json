@@ -1,0 +1,17 @@
+{
+	"name": "@freon4dsl/create-freon-languages",
+	"version": "0.0.1",
+	"license": "MIT",
+	"type": "module",
+	"main": "dist/index.js",
+	"module": "dist/index.mjs",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"install-local": "npm install --registry http://localhost:4873"
+	},
+	"devDependencies": {
+	},
+	"dependencies": {
+	}
+
+}
