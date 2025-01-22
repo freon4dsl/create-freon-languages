@@ -1,5 +1,5 @@
 {
-	"name": "@freon4dsl/samples-tutorial-language",
+	"name": "@freon4dsl/samples-typer",
 	"version": "1.0.0-beta3",
 	"license": "MIT",
 	"type": "module",
@@ -9,11 +9,11 @@
 	"scripts": {
 		"clean": "rm -rf node_modules/",
 		"build": "npm run generate && tsc && rollup --config",
-		"install-local": "npm install --registry http://localhost:4873",
-		"generate": "freon all -d src/defs -o src/freon",
-		"clean-gen": "freon clean-it -d src/defs -o src",
-		"clean-config": "rm */config/FreonConfiguration.ts",
-		"clean-custom": "rm */*/Custom*.ts",
+		"compile": "tsc && rollup --config",
+		"generate": "freon -v all -d src/defs -o src/freon/",
+		"clean-gen": "freon clean-it -d src/defs -o src/freon/",
+		"clean-config": "rm */freon/config/FreonConfiguration.ts",
+		"clean-custom": "rm */*/*/Custom*.ts",
 		"clean-all": "npm run clean-gen && npm run clean-config && npm run clean-custom"
 	},
 	"devDependencies": {
