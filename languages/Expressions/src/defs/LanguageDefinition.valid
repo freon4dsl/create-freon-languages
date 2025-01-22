@@ -1,0 +1,39 @@
+validator Entity for language Entity
+
+Function {
+    typecheck conformsTo (self.body, self.declaredType);
+    isunique name in self.parameters;
+    validIdentifier ;
+}
+AbsExpression {
+    typecheck equalsType( self.expr, Type:Integer );
+}
+MultiplyExpression {
+    typecheck equalsType( self.left, Type:Integer );
+    typecheck equalsType( self.right, Type:Integer );
+    typecheck conformsTo( self.left, self.right );
+}
+PlusExpression {
+    typecheck equalsType( self.left, Type:Integer );
+    typecheck equalsType( self.right, Type:Integer );
+    typecheck conformsTo( self.left, self.right );
+}
+DivideExpression {
+    typecheck equalsType( self.left, Type:Integer );
+    typecheck equalsType( self.right, Type:Integer );
+}
+AndExpression {
+    typecheck equalsType( self.left, Type:Boolean );
+    typecheck equalsType( self.right, Type:Boolean );
+}
+OrExpression {
+    typecheck equalsType( self.left, Type:Boolean );
+    typecheck equalsType( self.right, Type:Boolean );
+}
+ComparisonExpression {
+    typecheck equalsType( self.left, self.right );
+}
+IfExpression {
+    typecheck equalsType( self.condition, Type:Boolean );
+    typecheck conformsTo( self.whenTrue, self.whenFalse );
+}
