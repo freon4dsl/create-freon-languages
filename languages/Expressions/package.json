@@ -1,5 +1,5 @@
 {
-	"name": "@freon4dsl/samples-tutorial-language",
+	"name": "@freon4dsl/expressions",
 	"version": "0.7.0-beta",
 	"license": "MIT",
 	"type": "module",
