@@ -1,3 +1,3 @@
-This project is used in /Documentation/Customizations.
+This project is used in examples/interpreter of the Freon documentation site.
 
-It contains custom typer and validator
+It contains a custom interpreter.
