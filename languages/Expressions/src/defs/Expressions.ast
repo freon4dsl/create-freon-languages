@@ -14,10 +14,6 @@ limited Type { String; Integer; Boolean; ANY; }
 
 abstract expression Expression { }
 
-binary expression MultiplyExpression base BinaryExpression {
-    priority = 8;
-}
-
 expression NumberLiteralExpression base Expression {
     value: number;
 }
@@ -25,6 +21,10 @@ expression NumberLiteralExpression base Expression {
 abstract binary expression BinaryExpression base Expression {
     left: Expression;
     right: Expression;
+}
+
+binary expression MultiplyExpression base BinaryExpression {
+    priority = 8;
 }
 
 binary expression PlusExpression base BinaryExpression {
