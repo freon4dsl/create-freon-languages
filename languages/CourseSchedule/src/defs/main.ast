@@ -56,7 +56,7 @@ limited TimeStamp {
 concept Person {
     name: identifier;
     fullName: string;
-    phone: string;
+    phone: number;
     availability: TimeStamp[];
     reference competence: Course[];
 }
