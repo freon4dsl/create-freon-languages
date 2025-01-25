@@ -48,7 +48,7 @@
     }
     const refresh = (why?: string): void => {
         // do whatever needs to be done to refresh the elements that show information from the model
-        initialize();
+        // initialize();
     };
     onMount(() => {
         initialize();
