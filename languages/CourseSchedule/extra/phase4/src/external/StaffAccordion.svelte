@@ -4,7 +4,7 @@
     import {AST, ExternalPartListBox, FreEditor, FreNodeReference} from "@freon4dsl/core";
     import {RenderComponent} from "@freon4dsl/core-svelte";
     import {afterUpdate, onMount} from "svelte";
-    import {Person} from "@freon4dsl/samples-course-schedule";
+    import {Person} from "../freon/language/gen/index.js";
 
     // This component replaces the component for "teachers: Person[];" from model unit "Staff".
     // This property is a parts list, therefore the external box to use is an ExternalPartListBox.
