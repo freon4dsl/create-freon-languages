@@ -33,8 +33,9 @@ import {
 import { RtFraction } from "./runtime/RtFraction.js";
 import { RtFlow } from "./runtime/RtFlow.js"
 import { RtGrade } from "./runtime/RtGrade.js";
-import { RtPage } from "./runtime/RtPage.js"
+import {isRtPage, RtPage} from "./runtime/RtPage.js"
 import { EducationInterpreterBase } from "./gen/EducationInterpreterBase.js"
+import {EducationEnvironment} from "../config/gen/EducationEnvironment.js";
 
 let main: IMainInterpreter
 
@@ -49,7 +50,7 @@ export class EducationInterpreter extends EducationInterpreterBase {
     }
 
     override evalTest(node: Test, ctx: InterpreterContext): RtObject {
-        console.log("Eval Scenario " + node.freId() + "  flow " + node.flow.referred?.name)
+        console.log("Evaluating Scenario " + node.freId() + "  flow " + node.flow.referred?.name)
         // Puts the current flow in the context
         const newCtx = new InterpreterContext(ctx)
         const flow = new RtFlow(node.flow.referred)
@@ -67,7 +68,7 @@ export class EducationInterpreter extends EducationInterpreterBase {
     }
 
     override evalScenario(node: Scenario, ctx: InterpreterContext): RtObject {
-        console.log("Eval Scenario " + node.description + "  testFlow " + node.testFlow?.length)
+        console.log("Evaluating Scenario " + node.description + "  testFlow " + node.testFlow?.length)
         for (const testFlow of node.testFlow) {
             const stepFlowResult = main.evaluate(testFlow, ctx)
             if (isRtBoolean(stepFlowResult) && stepFlowResult.asBoolean() === false) {
@@ -81,11 +82,22 @@ export class EducationInterpreter extends EducationInterpreterBase {
     }
 
     override evalTestFlow(node: TestFlow, ctx: InterpreterContext): RtObject {
-        console.log("Eval Test Flow " + node.freId() + "  steps " + node.steps?.length)
+        console.log("Evaluating Test Flow " + node.freId() + "  steps " + node.steps?.length)
+        let previousPage: RtPage = undefined
+        let previousStep: Step
+        let first: boolean = true      // indicates whether there is a calculated value for 'previous'
         for (const step of node.steps) {
+            // Compare the fromPage with the previous stepResult
+            if (!first && previousPage.page !== step.$fromPage) {
+                // There was an error. Based on the given answers, we should not be on 'fromPage'.
+                return new RtError(`Next page of step ${EducationEnvironment.getInstance().writer.writeToLines(previousStep)} should be ${previousPage.page.name}, not ${step.$fromPage.name}.`)
+            }
             const stepResult = main.evaluate(step, ctx)
-            if (isRtBoolean(stepResult) && stepResult.asBoolean() === false) {
-                return RtBoolean.FALSE;
+            if (isRtPage(stepResult) ) {
+                // Remember the previous stepResult
+                previousPage = stepResult
+                previousStep = step
+                first = false
             }
             if (isRtError(stepResult)) {
                 return stepResult
@@ -96,11 +108,10 @@ export class EducationInterpreter extends EducationInterpreterBase {
 
     override evalStep(node: Step, ctx: InterpreterContext): RtObject {
         const currentPage = node.$fromPage
-        console.log(`evalStep ${node.freId()} FromPage ${currentPage?.name} nrAnswers is ${node.answerSeries.length}`)
+        console.log(`Evaluating Step ${node.freId()} FromPage ${currentPage?.name} nrAnswers is ${node.answerSeries.length}`)
 
         // Put the page for this step in the context
         const newCtx = new InterpreterContext(ctx)
-        newCtx.set("CURRENT_PAGE", new RtPage(currentPage))
 
         // Find the nr of correct answers and add it to the context
         let nrOfCorrectAnswers = 0
@@ -123,6 +134,7 @@ export class EducationInterpreter extends EducationInterpreterBase {
         if (isNullOrUndefined(currentFlow)) {
             return new RtError(`No flow found for page ${currentPage.name}`)
         }
+
         const pageRule: FlowRule = currentFlow.flow.rules.find((rule) => rule.$page === currentPage)
         if (isNullOrUndefined(pageRule)) {
             return new RtError(`No rules found for page ${currentPage.name} in ${currentFlow.flow.name}`)
@@ -134,17 +146,19 @@ export class EducationInterpreter extends EducationInterpreterBase {
         if (isNullOrUndefined(transition)) {
             return new RtError(`No transition found for grade ${grade.grade} on page ${currentPage.name} in ${currentFlow.flow.name}`)
         }
+        console.log(`Evaluating Step ${EducationEnvironment.getInstance().writer.writeToLines(node)} returning grade: ${transition.$condition.name}, page: ${transition.toPage.name}`)
         return new RtPage(transition.$toPage)
     }
 
     static evalPage(node: Page, ctx: InterpreterContext): RtObject {
         // Find grade for given answers
-        console.log(`evalPage.node ${node?.name}`)
+        console.log(`Evaluating Page ${node?.name}`)
         for (const score of node.grading) {
             const scoreValue = main.evaluate(score.expr, ctx)
             if (isRtBoolean(scoreValue)) {
                 if (scoreValue.asBoolean()) {
-                    return new RtGrade(score.grade.referred)
+                    console.log(`Evaluating Page returning ${score.$grade?.name}`)
+                    return new RtGrade(score.$grade)
                 }
             }
         }
@@ -177,7 +191,7 @@ export class EducationInterpreter extends EducationInterpreterBase {
         if (givenAnswer === undefined || givenAnswer === null) {
             throw new RtError(`evalQuestionReference: Question '${question.content}' does not have a result value`)
         }
-        console.log(`evalQuestionReference for '${question.content}' is '${givenAnswer}', expected ${expected}`)
+        console.log(`evalQuestionReference for '${question.content}', given answer is '${givenAnswer}', expected '${expected}'`)
         return givenAnswer.equals(expected)
     }
 
