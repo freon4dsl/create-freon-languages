@@ -4,7 +4,7 @@ editor default
 //       Expressions to be able to calculate with Euros       //
 ////////////////////////////////////////////////////////////////
 EuroLiteral {
-    [EUR ${euros},${cents}] // TODO make third level projection where EUR is the euro symbol
+    [EUR ${euros},${cents}]
 }
 NumberLiteral {
     [${self.value}]

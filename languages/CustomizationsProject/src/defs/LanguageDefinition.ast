@@ -110,11 +110,11 @@ expression StringLiteralExpression base LiteralExpression {
 }
 
 expression NumberLiteralExpression base LiteralExpression {
-    value: string; // TODO should be changed to type number
+    value: string;
 }
 
 expression BooleanLiteralExpression base LiteralExpression {
-    value: string; // TODO should be changed to type boolean
+    value: string;
 }
 
 abstract binary expression BinaryExpression base EntityExpression {
