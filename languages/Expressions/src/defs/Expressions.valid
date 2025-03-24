@@ -2,7 +2,7 @@ validator Expressions for language Expressions
 
 Function {
     typecheck conformsTo (self.body, self.declaredType);
-    isunique name in self.parameters;
+    in self.parameters isunique name;
     validIdentifier ;
 }
 MultiplyExpression {
