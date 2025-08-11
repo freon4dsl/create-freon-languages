@@ -1,10 +1,11 @@
 <script lang="ts">
-    import {ExternalSimpleBox, FreEditor} from "@freon4dsl/core";
+    import { ExternalSimpleBox } from "@freon4dsl/core";
+    import type { FreComponentProps } from "@freon4dsl/core-svelte";
 
-    // Freon expects both of these to be present, even if they are not used.
-    export let box: ExternalSimpleBox;
-    export let editor: FreEditor;
+    // Freon expects both props to be present, even if they are not used.
+    // Props
+    let { editor, box }: FreComponentProps<ExternalSimpleBox> = $props();
 
 </script>
 
-<img src='./icons8-person-94.png' alt="Icon showing Person" height="30px"/>
+<img src='./customImages/icons8-person-94.png' alt="Icon showing Person" height="30px"/>

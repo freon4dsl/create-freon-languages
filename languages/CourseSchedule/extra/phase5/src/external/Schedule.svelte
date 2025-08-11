@@ -1,16 +1,22 @@
 <script lang="ts">
-    import IconButton from "@smui/icon-button";
-    import {afterUpdate, onMount} from "svelte";
-    import {Box, ExternalPartListBox, FreEditor, FreNode, FreNodeReference, AST} from "@freon4dsl/core";
-    import {RenderComponent} from "@freon4dsl/core-svelte";
-    import {Slot, TimeStamp} from "../freon/language/gen/index.js";
+    import {
+        Box,
+        ExternalPartListBox,
+        type FreNode,
+        FreNodeReference,
+        AST, isNullOrUndefined, LabelBox, notNullOrUndefined
+    } from "@freon4dsl/core"
+    import {type FreComponentProps, RenderComponent} from "@freon4dsl/core-svelte";
+    import {Slot, TimeStamp} from "@freon4dsl/samples-course-schedule";
+    import { UserAddOutline } from 'flowbite-svelte-icons';
+    import { Button } from 'flowbite-svelte';
 
     // This component replaces the component for "timeSlots: Slot[];" from model unit "Schedule".
     // This property is a parts list, therefore the external box to use is an ExternalPartListBox.
-    export let box: ExternalPartListBox;
-    export let editor: FreEditor;
+    // Props
+    let { editor, box }: FreComponentProps<ExternalPartListBox> = $props();
 
-    // The following four functions need to be included for the editor to function properly.
+    // The following three functions need to be included for the editor to function properly.
     // Please, set the focus to the first editable/selectable element in this component.
     async function setFocus(): Promise<void> {
     }
@@ -18,25 +24,25 @@
         // do whatever needs to be done to refresh the elements that show information from the model
         initialize();
     };
-    onMount(() => {
+    $effect(() => {
         initialize();
-        box.setFocus = setFocus;
-        box.refreshComponent = refresh;
-    });
-    afterUpdate(() => {
-        initialize();
-        sortedSlots = [...sortedSlots]
         box.setFocus = setFocus;
         box.refreshComponent = refresh;
     });
 
     // --------------------------- //
     let slotToBoxMap: Map<Slot, Box> = new Map<Slot, Box>();
-    let sortedSlots: Slot[][]; // an array of 10 positions, making use of the 10 different timeSlots that are available
-    sortedSlots = [];
-    for (let i = 0; i < 10 ; i++) {
-        sortedSlots[i] = [];
+    // an array of 10 positions, making use of the 10 different timeSlots that are available
+    let sortedSlots: Slot[][] = $state(initSortedSlots());
+
+    function initSortedSlots(): Slot[][] {
+        let slots = [];
+        for (let i = 0; i < 10; i++) {
+            slots[i] = [];
+        }
+        return slots;
     }
+
     let dayTitle: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday' ];
 
     // variables for creating a new slot
@@ -54,8 +60,9 @@
     ];
 
     function sortSlots(startVal: Slot[]) {
+        const newSlots: Slot[][] = []
         for (let i = 0; i < 10 ; i++) {
-            sortedSlots[i] = [];
+            newSlots[i] = [];
         }
         (startVal).forEach((val, index) => {
             // remember which box belongs to which slot
@@ -64,15 +71,15 @@
                 case 1: {
                     switch (val.$time.part) {
                         case 1: { // Monday morning
-                            sortedSlots[0].push(val);
+                            newSlots[0].push(val);
                             break;
                         }
                         case 2: { // Monday afternoon
-                            sortedSlots[5].push(val);
+                            newSlots[5].push(val);
                             break;
                         }
                         default: {
-                            sortedSlots[0].push(val);
+                            newSlots[0].push(val);
                         }
                     }
                     break;
@@ -80,15 +87,15 @@
                 case 2: {
                     switch (val.$time.part) {
                         case 1: { // Tuesday morning
-                            sortedSlots[1].push(val);
+                            newSlots[1].push(val);
                             break;
                         }
                         case 2: { // Tuesday afternoon
-                            sortedSlots[6].push(val);
+                            newSlots[6].push(val);
                             break;
                         }
                         default: {
-                            sortedSlots[1].push(val);
+                            newSlots[1].push(val);
                         }
                     }
                     break;
@@ -96,15 +103,15 @@
                 case 3: {
                     switch (val.$time.part) {
                         case 1: { // Wednesday morning
-                            sortedSlots[2].push(val);
+                            newSlots[2].push(val);
                             break;
                         }
                         case 2: { // Wednesday afternoon
-                            sortedSlots[7].push(val);
+                            newSlots[7].push(val);
                             break;
                         }
                         default: {
-                            sortedSlots[2].push(val);
+                            newSlots[2].push(val);
                         }
                     }
                     break;
@@ -112,15 +119,15 @@
                 case 4: {
                     switch (val.$time.part) {
                         case 1: { // Thursday morning
-                            sortedSlots[3].push(val);
+                            newSlots[3].push(val);
                             break;
                         }
                         case 2: { // Thursday afternoon
-                            sortedSlots[8].push(val);
+                            newSlots[8].push(val);
                             break;
                         }
                         default: {
-                            sortedSlots[3].push(val);
+                            newSlots[3].push(val);
                         }
                     }
                     break;
@@ -128,27 +135,28 @@
                 case 5: {
                     switch (val.$time.part) {
                         case 1: { // Friday morning
-                            sortedSlots[4].push(val);
+                            newSlots[4].push(val);
                             break;
                         }
                         case 2: { // Friday afternoon
-                            sortedSlots[9].push(val);
+                            newSlots[9].push(val);
                             break;
                         }
                         default: {
-                            sortedSlots[4].push(val);
+                            newSlots[4].push(val);
                         }
                     }
                     break;
                 }
             }
         })
+        sortedSlots = newSlots
     }
 
     /* Sort the list of slots based on the time */
     function initialize() {
         let startVal: FreNode[] | undefined = box.getPropertyValue();
-        if (!!startVal && box.getPropertyType() === "Slot") {
+        if (notNullOrUndefined(startVal) && box.getPropertyType() === "Slot") {
             // cast the startVal to the expected type, in this case "Slot[]".
             // sort the slots based on the time and remember which box belongs to which slot
             sortSlots(startVal as Slot[]);
@@ -164,7 +172,21 @@
         });
     }
 
+    const findBoxForSlot = (slot: Slot): Box => {
+        let xx = slotToBoxMap.get(slot);
+        if (!isNullOrUndefined(xx)) {
+            return xx;
+        } else {
+            return new LabelBox(box.node, 'no-role', () => { return 'No box found'});
+        }
+    }
     initialize();
+    const colorCls: string = 'text-light-base-50 dark:text-dark-base-900 ';
+    const buttonCls: string =
+      'bg-light-base-600 					dark:bg-dark-base-200 ' +
+      'hover:bg-light-base-900 		dark:hover:bg-dark-base-50 ' +
+      'border-light-base-100 			dark:border-dark-base-800 ';
+    const iconCls: string = 'ms-0 inline h-6 w-6';
 </script>
 
 
@@ -172,7 +194,7 @@
     <table class="demo-table">
         <thead>
         <tr class="demo-header-row">
-            <th class="demo-header-cell">--</th>
+            <th class="demo-header-cell"></th>
             {#each dayTitle as title}
                 <th class="demo-header-cell">{title}</th>
             {/each}
@@ -181,16 +203,16 @@
         <tbody>
         <tr class="demo-row">
             <td class="demo-header-cell">Morning</td>
-            {#each sortedSlots  as slots, index}
+            {#each sortedSlots as slots, index}
                 {#if index < 5}
                     {#if slots.length > 0}
                         <td class="demo-cell">
                             <div class="demo-cell-content">
-                                {#each slots as slot}
-                                    <div class="demo-slot-render">
-                                        <RenderComponent box={slotToBoxMap.get(slot)} editor={editor} />
-                                    </div>
-                                {/each}
+                            {#each slots as slot}
+                                <div class="demo-slot-render">
+                                <RenderComponent box={findBoxForSlot(slot)} editor={editor} />
+                                </div>
+                            {/each}
                             </div>
                         </td>
                     {:else}
@@ -206,7 +228,9 @@
             {#each timeStamps as stamp, index}
                 {#if index < 5}
                     <td class="demo-btn-cell">
-                        <IconButton class="material-icons" on:click={() => addSlot(stamp)}>add</IconButton>
+                        <Button tabindex={-1} id="add-button" class="{buttonCls} {colorCls} " name="ToastOpen" onclick={() => addSlot(stamp)}>
+                            <UserAddOutline class="{iconCls}" />
+                        </Button>
                     </td>
                 {/if}
             {/each}
@@ -219,7 +243,7 @@
                         <td class="demo-cell">
                             {#each slots as slot}
                                 <div class="demo-slot-render">
-                                    <RenderComponent box={slotToBoxMap.get(slot)} editor={editor} />
+                                <RenderComponent box={findBoxForSlot(slot)} editor={editor} />
                                 </div>
                             {/each}
                         </td>
@@ -238,7 +262,9 @@
             {#each timeStamps as stamp, index}
                 {#if index >= 5}
                     <td class="demo-btn-cell">
-                        <IconButton class="material-icons" on:click={() => addSlot(stamp)}>add</IconButton>
+                        <Button tabindex={-1} id="add-button" class="{buttonCls} {colorCls} " name="ToastOpen" onclick={() => addSlot(stamp)}>
+                            <UserAddOutline class="{iconCls}" />
+                        </Button>
                     </td>
                 {/if}
             {/each}

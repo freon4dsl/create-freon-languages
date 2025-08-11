@@ -1,27 +1,22 @@
 <script lang="ts">
-    import Card from '@smui/card';
-    import {RenderComponent} from "@freon4dsl/core-svelte";
-    import {FragmentWrapperBox, FreEditor} from "@freon4dsl/core";
-    import {afterUpdate, onMount} from "svelte";
+    import {type FreComponentProps, RenderComponent} from "@freon4dsl/core-svelte";
+    import { FragmentWrapperBox, notNullOrUndefined } from "@freon4dsl/core"
+    import { Card } from 'flowbite-svelte';
 
-    export let box: FragmentWrapperBox;
-    export let editor: FreEditor;
+    // Props
+    let { editor, box }: FreComponentProps<FragmentWrapperBox> = $props();
 
-    // The following four functions need to be included for the editor to function properly.
+    // The following three functions need to be included for the editor to function properly.
     // Please, set the focus to the first editable/selectable element in this component.
     async function setFocus(): Promise<void> {
-        if (!!box.childBox) {
+        if (notNullOrUndefined(box.childBox)) {
             box.childBox.setFocus();
         }
     }
     const refresh = (why?: string): void => {
         // do whatever needs to be done to refresh the elements that show information from the model
     };
-    onMount(() => {
-        box.setFocus = setFocus;
-        box.refreshComponent = refresh;
-    });
-    afterUpdate(() => {
+    $effect(() => {
         box.setFocus = setFocus;
         box.refreshComponent = refresh;
     });
