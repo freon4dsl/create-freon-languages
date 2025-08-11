@@ -1,15 +1,21 @@
-scoper DocuScoper for language InsuranceModel
+scoper for language InsuranceModel
 
-isnamespace { InsuranceProduct, BaseProduct, CalcFunction, Entity }
+isNamespace { InsuranceProduct, BaseProduct, CalcFunction, Entity }
 
 InsuranceProduct {
-    namespace_addition = self.basedOn;
+    imports {
+        self.basedOn;
+    } 
 }
 
 AttributeRef {
-	scope = typeof( container );
+	alternatives {
+        self.owner().type();
+    } 
 }
 
 Entity {
-    namespace_addition = self.baseEntity;
+    imports {
+        self.baseEntity;
+    } 
 }

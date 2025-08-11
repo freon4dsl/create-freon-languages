@@ -7,8 +7,8 @@ istype { Type }
 hastype { Expression, Parameter, Function }
 
 anytype {
-    conformsto Type:ANY;
-    equalsto Type:ANY;
+    conformsto #Type:ANY;
+    equalsto #Type:ANY;
 }
 
 Function {
@@ -16,7 +16,7 @@ Function {
 }
 
 NumberLiteralExpression {
-    infertype Type:Integer;
+    infertype #Type:Integer;
 }
 
 MultiplyExpression {
