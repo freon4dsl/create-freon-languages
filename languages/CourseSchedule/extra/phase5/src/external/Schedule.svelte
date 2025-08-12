@@ -7,7 +7,7 @@
         AST, isNullOrUndefined, LabelBox, notNullOrUndefined
     } from "@freon4dsl/core"
     import {type FreComponentProps, RenderComponent} from "@freon4dsl/core-svelte";
-    import {Slot, TimeStamp} from "@freon4dsl/samples-course-schedule";
+    import {Slot, TimeStamp} from "../freon/index.js";
     import { UserAddOutline } from 'flowbite-svelte-icons';
     import { Button } from 'flowbite-svelte';
 

@@ -2,7 +2,7 @@
     import { AccordionItem, Accordion, Button } from 'flowbite-svelte';
     import { AST, ExternalPartListBox } from "@freon4dsl/core";
     import { type FreComponentProps, RenderComponent } from "@freon4dsl/core-svelte";
-    import { Person } from "@freon4dsl/samples-course-schedule";
+    import { Person } from "../freon/index.js";
     import { untrack } from "svelte"
     import { UserAddOutline, UserRemoveOutline } from 'flowbite-svelte-icons';
     // This component replaces the component for "teachers: Person[];" from model unit "Staff".
