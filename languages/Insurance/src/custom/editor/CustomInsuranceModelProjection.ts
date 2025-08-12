@@ -6,7 +6,8 @@ import {
     FreTableDefinition,
     createDefaultExpressionBox,
     BoxFactory,
-    BoxUtil, NumberDisplay, SvgBox
+    BoxUtil, NumberDisplay, SvgBox,
+    FreProjectionHandler
 } from "@freon4dsl/core";
 import {EuroLiteral} from "../language/gen/index.js";
 
@@ -33,6 +34,7 @@ const euroIcon = "M640 789.333333c-106.88 0-199.68-60.586667-245.973333-149.3333
  * (3) if neither (1) nor (2) yields a result, the default is used.
  */
 export class CustomInsuranceModelProjection implements FreProjection {
+    handler: FreProjectionHandler;
     name: string = "Euro-symbol";
     nodeTypeToBoxMethod: Map<string, (node: FreNode) => Box> = new Map<string, (node: FreNode) => Box>([
         // register your custom box methods here
