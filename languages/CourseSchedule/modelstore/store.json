@@ -1,0 +1,29 @@
+{
+    "currentPostfix": 1,
+    "models": [
+        {
+            "folder": "AdultEducation1",
+            "language": "",
+            "name": "AdultEducation1",
+            "units": [
+                {
+                    "file": "BuildingA.json",
+                    "name": "BuildingA"
+                },
+                {
+                    "file": "LanguageCourses.json",
+                    "name": "LanguageCourses"
+                },
+                {
+                    "file": "Semester_2025_1.json",
+                    "name": "Semester_2025_1"
+                },
+                {
+                    "file": "TeachingStaff.json",
+                    "name": "TeachingStaff"
+                }
+            ],
+            "version": "1"
+        }
+    ]
+}

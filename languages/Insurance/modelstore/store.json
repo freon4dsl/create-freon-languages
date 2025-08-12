@@ -1,0 +1,53 @@
+{
+    "currentPostfix": 1,
+    "models": [
+        {
+            "folder": "DocuProject",
+            "language": "",
+            "name": "DocuProject",
+            "units": [
+                {
+                    "file": "Faulty.json",
+                    "name": "Faulty"
+                },
+                {
+                    "file": "Health.json",
+                    "name": "Health"
+                },
+                {
+                    "file": "HealthAll.json",
+                    "name": "HealthAll"
+                },
+                {
+                    "file": "Home.json",
+                    "name": "Home"
+                },
+                {
+                    "file": "HomeAll.json",
+                    "name": "HomeAll"
+                },
+                {
+                    "file": "HomeAndHealth.json",
+                    "name": "HomeAndHealth"
+                },
+                {
+                    "file": "HomeCheap.json",
+                    "name": "HomeCheap"
+                },
+                {
+                    "file": "HomeExtra.json",
+                    "name": "HomeExtra"
+                },
+                {
+                    "file": "Legal.json",
+                    "name": "Legal"
+                },
+                {
+                    "file": "LegalAll.json",
+                    "name": "LegalAll"
+                }
+            ],
+            "version": "1"
+        }
+    ]
+}

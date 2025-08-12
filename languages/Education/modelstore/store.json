@@ -1,0 +1,97 @@
+{
+    "currentPostfix": 1,
+    "models": [
+        {
+            "folder": "Lesson1",
+            "language": "",
+            "name": "Lesson1",
+            "units": [
+                {
+                    "file": "Fractions.json",
+                    "name": "Fractions"
+                },
+                {
+                    "file": "Fractions101.json",
+                    "name": "Fractions101"
+                },
+                {
+                    "file": "Fractions102.json",
+                    "name": "Fractions102"
+                },
+                {
+                    "file": "Fractions103.json",
+                    "name": "Fractions103"
+                },
+                {
+                    "file": "StartFlow.json",
+                    "name": "StartFlow"
+                }
+            ],
+            "version": "1"
+        },
+        {
+            "folder": "Lesson4",
+            "language": "",
+            "name": "Lesson4",
+            "units": [
+                {
+                    "file": "Flow1.json",
+                    "name": "Flow1"
+                },
+                {
+                    "file": "Fractions.json",
+                    "name": "Fractions"
+                },
+                {
+                    "file": "Fractions101.json",
+                    "name": "Fractions101"
+                },
+                {
+                    "file": "Fractions102.json",
+                    "name": "Fractions102"
+                },
+                {
+                    "file": "Fractions103.json",
+                    "name": "Fractions103"
+                },
+                {
+                    "file": "StartFlow.json",
+                    "name": "StartFlow"
+                }
+            ],
+            "version": "1"
+        },
+        {
+            "folder": "Lesson6",
+            "language": "",
+            "name": "Lesson6",
+            "units": [
+                {
+                    "file": "Fractions.json",
+                    "name": "Fractions"
+                },
+                {
+                    "file": "Fractions101.json",
+                    "name": "Fractions101"
+                },
+                {
+                    "file": "Fractions102.json",
+                    "name": "Fractions102"
+                },
+                {
+                    "file": "Fractions103.json",
+                    "name": "Fractions103"
+                },
+                {
+                    "file": "StartFlow.json",
+                    "name": "StartFlow"
+                },
+                {
+                    "file": "TestB.json",
+                    "name": "TestB"
+                }
+            ],
+            "version": "1"
+        }
+    ]
+}
