@@ -1,4 +1,4 @@
-validator Expressions for language Expressions
+validator for language Expressions
 
 Function {
     typecheck conformsTo (self.body, self.declaredType);
