@@ -1,6 +1,6 @@
 {
 	"name": "@freon4dsl/create-freon-languages",
-	"version": "2.0.0-beta.2",
+	"version": "2.0.0",
 	"license": "MIT",
 	"type": "module",
 	"main": "dist/index.js",

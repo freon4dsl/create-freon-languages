@@ -1,6 +1,6 @@
 # Howto Install Phases
 
-This folder contains subfolders, one for each phase in the example on the Freon documentation site..
+This folder contains subfolders, one for each phase in the example on the Freon documentation site.
 
 To install a phase:
 
